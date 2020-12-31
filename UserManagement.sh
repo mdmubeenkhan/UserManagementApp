@@ -33,6 +33,34 @@ do
         1)
             add_user
             ;;
+        
+        2)
+            search_user
+            ;;
+        
+        3)
+            change_password
+            ;;
+        
+        4)
+            delete_user
+            ;;
+        
+        5)
+            show_all_user
+            ;;
+        
+        6)
+            user_count
+            ;;
+
+        7)
+            echo 'Thanks for using this application'
+            exit 0
+            ;;
+        
+        *)
+            echo 'WRONG CHOICE, Try Again'
     esac
 done
 
