@@ -14,9 +14,39 @@ add_user()
 {
     if [ ! -e users.dat ]; then        
         touch users.dat
-    else
-        echo 'file is present'
     fi
+    echo
+    echo 'Please provide details to add user'
+    read -p 'First name : ' fname
+    read -p 'Last name : ' lname
+    read -p 'User id : ' uid
+    
+    count=$(cat users.dat | cut -d ":" -f 1 | grep -w $uid | wc -l)
+
+    if [ $count -ne 0 ]; then
+        echo
+        echo "User id : $uid is already present and cannot be added."
+        echo
+        return 1
+    fi
+
+    read -s -p "Password : " pwd
+    echo
+    read -s -p "Retype password : " cpwd
+    echo
+
+    if [ $pwd != $cpwd ]; then
+        echo
+        echo
+        echo "Passwords are not matching."
+        echo
+        return 2
+    fi
+
+    read -p "Zip code : " zipcode
+    echo "$uid:$pwd:$fname:$lname:$zipcode" >> users.dat
+    echo
+    echo "User added successfully."
     echo
 }
 
