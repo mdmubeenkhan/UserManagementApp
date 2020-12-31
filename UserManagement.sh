@@ -12,6 +12,11 @@ echo
 
 add_user()
 {
+    if [ ! -e users.dat ]; then        
+        touch users.dat
+    else
+        echo 'file is present'
+    fi
     echo
 }
 
@@ -55,12 +60,17 @@ do
             ;;
 
         7)
+            echo
             echo 'Thanks for using this application'
+            echo
             exit 0
             ;;
         
         *)
             echo 'WRONG CHOICE, Try Again'
+            echo
+            echo '--------Please Try Again...--------------'
+            echo
     esac
 done
 
