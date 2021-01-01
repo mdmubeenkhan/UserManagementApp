@@ -65,6 +65,8 @@ search_user()
     if [ $count -eq 0 ]; then
         echo
         echo "User id : $uid does not exists. "
+        echo "Try again..."
+        echo
         return 3
     fi
 
@@ -73,6 +75,8 @@ search_user()
     
     if [ $count -eq 0 ]; then
         echo "Invalid password"
+        echo "Try again..."
+        echo
         return 4
     fi
 
@@ -84,7 +88,7 @@ search_user()
         if [ $uid = $fuid -a $pwd = $fpwd ]; then
             available="Yes"
             echo
-            echo "The complete info of user is : "
+            echo "The complete user info is : "
             echo "User id : $( echo $line | cut -d ":" -f 1 )"
             echo "Password : $( echo $line | cut -d ":" -f 2 )"
             echo "First name : $( echo $line | cut -d ":" -f 3 )"
