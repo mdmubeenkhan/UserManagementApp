@@ -6,6 +6,10 @@
 # This is the v1.0
 #
 
+# importing functions
+. ./utility.sh
+
+
 echo 'Welcom to User Management Application'
 echo '......................................'
 echo
@@ -20,9 +24,10 @@ add_user()
     read -p 'First name : ' fname
     read -p 'Last name : ' lname
     read -p 'User id : ' uid
-    
-    count=$(cat users.dat | cut -d ":" -f 1 | grep -w $uid | wc -l)
-
+  
+    count_function users.dat $uid
+    count=$count_value
+    echo "Count value is = $count"
     if [ $count -ne 0 ]; then
         echo
         echo "User id : $uid is already present and cannot be added."
@@ -48,6 +53,47 @@ add_user()
     echo
     echo "User added successfully."
     echo
+}
+
+search_user()
+{
+    available='No'
+    read -p "Enter user id : " uid
+    count_function users.dat $uid
+    count=$count_value
+
+    if [ $count -eq 0 ]; then
+        echo
+        echo "User id : $uid does not exists. "
+        return 3
+    fi
+
+    read -p "Enter password : " pwd
+    count=$(cat users.dat | grep -w $uid | cut -d ":" -f 2 | grep -w $pwd | wc -l)
+    
+    if [ $count -eq 0 ]; then
+        echo "Invalid password"
+        return 4
+    fi
+
+    while read line
+    do
+        fuid=$( echo $line | cut -d ":" -f 1)
+        fpwd=$( echo $line | cut -d ":" -f 2)
+
+        if [ $uid = $fuid -a $pwd = $fpwd ]; then
+            available="Yes"
+            echo
+            echo "The complete info of user is : "
+            echo "User id : $( echo $line | cut -d ":" -f 1 )"
+            echo "Password : $( echo $line | cut -d ":" -f 2 )"
+            echo "First name : $( echo $line | cut -d ":" -f 3 )"
+            echo "Last name : $( echo $line | cut -d ":" -f 4 )"
+            echo
+            break
+            
+        fi
+    done < users.dat
 }
 
 
