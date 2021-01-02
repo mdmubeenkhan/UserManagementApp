@@ -100,6 +100,13 @@ search_user()
     done < users.dat
 }
 
+user_count()
+{
+    echo
+    count=$( cat users.dat | wc -l)
+    echo "The total number of users : $count."
+    echo
+}
 
 while true
 do
