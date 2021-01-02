@@ -102,8 +102,10 @@ search_user()
 
 show_all_user()
 {
+    echo "All users information :"
+    echo ".........................."
     cat users.dat
-    echo
+    echo    
 }
 
 user_count()
