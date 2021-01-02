@@ -100,6 +100,12 @@ search_user()
     done < users.dat
 }
 
+show_all_user()
+{
+    echo "All users information :"
+    echo ".........................."
+}
+
 user_count()
 {
     echo
