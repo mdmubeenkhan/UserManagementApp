@@ -100,6 +100,48 @@ search_user()
     done < users.dat
 }
 
+change_password()
+{
+    available="No"
+    read -p "Enter user id : " uid
+    count=$(cat users.dat | cut -d ":" -f 1 | grep -w $uid | wc -l)
+    if [ $count -eq 0 ]; then
+        echo "User id : $uid does not exists, Cannot change password."
+        return 3
+    fi
+
+    read -p "Enter password : " pwd
+    count=$(cat users.dat | grep -w $uid | cut -d ":" -f 2 | grep -w $pwd | wc -l)
+    if [ $count -eq 0 ]; then
+        echo "Invalid password, Cannot change password."
+        return 4
+    fi
+    
+    while read line
+    do
+        fuid=$( echo $line | cut -d ":" -f 1)
+        fpwd=$( echo $line | cut -d ":" -f 2)
+
+        if [ $uid = $fuid -a $pwd = $fpwd ]; then
+            available="Yes"
+            grep -v $line users.dat > temp.dat
+            record=$line
+            break            
+        fi
+    done < users.dat
+
+    mv temp.dat users.dat
+
+    read -p "Enter new password : " npwd
+    uid=$( echo $record | cut -d ":" -f 1 )
+    fname=$( echo $record | cut -d ":" -f 2 )
+    lname=$( echo $record | cut -d ":" -f 3 )
+    zipcode=$( echo $record | cut -d ":" -f 4 )
+
+    echo "$uid:$npwd:$fname:$lname:$zipcode" >> users.dat
+    echo "Password updated successfully"
+}
+
 show_all_user()
 {
     echo "All users information :"
