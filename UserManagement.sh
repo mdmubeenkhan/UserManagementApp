@@ -140,6 +140,7 @@ change_password()
 
     echo "$uid:$npwd:$fname:$lname:$zipcode" >> users.dat
     echo "Password updated successfully"
+    
 }
 
 show_all_user()
