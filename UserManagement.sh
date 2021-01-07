@@ -100,6 +100,40 @@ search_user()
     done < users.dat
 }
 
+delete_user()
+{
+    available="No"
+    read -p "Enter user id : " uid
+    count=$( cat users.dat | cut -d ":" -f 1 | grep -w $uid | wc -l )
+    
+    if [ $count -eq 0 ]; then
+        echo "User id : $uid does not exists, cannot delete user."
+        return 3
+    fi
+
+    read -p "Enter password : " pwd
+    count=$( cat users.dat | grep -w $uid | cut -d ":" -f 2 | grep -w $pwd | wc -l )
+
+    if [ $count -eq 0 ]; then
+        echo "Invalid password, cannot delete user."
+        return 4
+    fi
+
+    while  read line
+    do
+        fuid=$( echo $line | cut -d ":" -f 1)
+        fpwd=$( echo $line | cut -d ":" -f 2)
+
+        if [ $uid = $fuid -a $pwd = $fpwd ]; then
+            available="Yes"
+            grep -v $line users.dat > temp.dat            
+            break            
+        fi
+    done < users.dat
+    mv temp.dat users.dat
+    echo "User with id : $uid is delted successfully."
+}
+
 change_password()
 {
     available="No"
